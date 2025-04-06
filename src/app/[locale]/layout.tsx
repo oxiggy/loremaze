@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import AuthProvider from '@/components/AuthProvider/AuthProvider'
 import { getCurrentLocale } from '@/locales/server'
 import { I18nProviderClient } from '@/locales/client'
 import '../globals.css'
@@ -30,7 +31,9 @@ export default async function RootLayout({
 	return (
 		<html lang={locale}>
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans`}>
-				<I18nProviderClient locale={locale}>{children}</I18nProviderClient>
+				<I18nProviderClient locale={locale}>
+					<AuthProvider>{children}</AuthProvider>
+				</I18nProviderClient>
 			</body>
 		</html>
 	)

@@ -3,9 +3,11 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { LanguageSelect } from '@/components/LanguageSelect/LanguageSelect'
 import { cn } from '@/lib/utils'
+import { signIn, signOut, useSession } from 'next-auth/react'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const pathname = usePathname()
+	const { data: session } = useSession()
 
 	return (
 		<div className="flex flex-col min-h-screen py-2">
@@ -19,6 +21,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					</Link>
 				</nav>
 				<LanguageSelect />
+				{session ? (
+					<>
+						<div>{session.user?.name}</div>
+						<button onClick={() => signOut()}>Logout</button>
+					</>
+				) : (
+					<>
+						<button onClick={() => signIn('github')}>GitHub</button>
+						<button onClick={() => signIn('discord')}>Discord</button>
+					</>
+				)}
 			</header>
 			{children}
 		</div>
