@@ -12,10 +12,10 @@ export async function signinAction(formData: FormData) {
 	const supabase = await createClient()
 	const { error } = await supabase.auth.signInWithPassword(data)
 
-	console.log('Auth error', error)
+		//console.log('Auth error', error)
 	if (error) {
 		throw error
 	}
 
-	redirect('/')
+	redirect('/dashboard')
 }

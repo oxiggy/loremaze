@@ -9,10 +9,10 @@ export function composeMiddleware(...middlewares: Middleware[]) {
 		for (const mw of middlewares) {
 			const result = await mw(req)
 			if (result instanceof NextResponse) {
-				return result // short-circuit: остановить цепочку
+				return result
 			}
 		}
-		return NextResponse.next() // если ни одна мидлвара не остановила
+		return NextResponse.next()
 	}
 }
 
