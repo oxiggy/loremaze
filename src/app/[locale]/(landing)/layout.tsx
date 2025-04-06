@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					Loremaze
 				</Link>
 				<nav className="grow flex items-center gap-4">
-					<Link className={cn('text-sm font-normal leading-0 text-muted-foreground hover:text-foreground', { 'text-violet-500': pathname === '/about' })} href="/about">
+					<Link className={cn('text-sm font-normal leading-0 text-muted-foreground hover:text-foreground', { 'text-violet-500 hover:text-violet-500': pathname === '/about' })} href="/about">
 						Hello page
 					</Link>
 				</nav>
