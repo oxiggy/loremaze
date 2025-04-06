@@ -1,11 +1,14 @@
-'use client'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { LanguageSelect } from '@/components/LanguageSelect/LanguageSelect'
-import { cn } from '@/lib/utils'
+import { createClient } from '@/lib/supabase'
 
-export default function Layout({ children }: { children: React.ReactNode }) {
-	const pathname = usePathname()
+export default async function Layout({ children }: { children: React.ReactNode }) {
+	const supabase = await createClient()
+	const {
+		data: { user },
+	} = await supabase.auth.getUser()
+
+	console.log(user, 'supabase user')
 
 	return (
 		<div className="flex flex-col min-h-screen py-2">
@@ -14,7 +17,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					Loremaze
 				</Link>
 				<nav className="grow flex items-center gap-4">
-					<Link className={cn('text-sm font-normal leading-0 text-muted-foreground hover:text-foreground', { 'text-violet-500 hover:text-violet-500': pathname === '/about' })} href="/about">
+					<Link className="text-sm font-normal leading-0 text-muted-foreground hover:text-foreground" href="/about">
 						Hello page
 					</Link>
 				</nav>
