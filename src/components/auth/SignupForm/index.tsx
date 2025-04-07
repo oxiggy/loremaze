@@ -1,32 +1,90 @@
 'use client'
-import {useActionState} from 'react';
-import {Label} from '@/components/ui/label';
-import {Input} from '@/components/ui/input';
-import {Button} from '@/components/ui/button';
-import {signupAction, type SignupActionState} from '@/components/auth/SignupForm/actions';
+import { signupAction } from './actions'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
-export default function SignupForm() {
-  const [formState, action, pending ] = useActionState<SignupActionState, FormData>(signupAction, {})
+const formSchema = z
+	.object({
+		email: z.string().email({ message: 'Invalid email address' }),
+		password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
+		passwordConfirm: z.string(),
+	})
+	.refine((data) => data.password === data.passwordConfirm, {
+		path: ['passwordConfirm'],
+		message: 'Passwords do not match',
+	})
 
-  return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <form action={action} className="w-80 flex flex-col gap-4">
-          {!!formState.error && <div className='text-sm text-destructive'>{formState.error}</div>}
+type FormValues = z.infer<typeof formSchema>
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" required disabled={pending} />
-          </div>
+export const SignupForm = () => {
+	const form = useForm<FormValues>({
+		mode: 'onChange',
+		resolver: zodResolver(formSchema),
+		defaultValues: {
+			email: '',
+			password: '',
+			passwordConfirm: '',
+		},
+	})
 
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" name="password" type="password" required disabled={pending} />
-          </div>
+	const submit = async (data: FormValues) => {
+		const { email, password } = data
+		await signupAction({ email, password })
+	}
 
-          <Button type="submit" disabled={pending}>Create account</Button>
-        </form>
-      </div>
-    </div>
-  )
+	return (
+		<Form {...form}>
+			<form className="w-80 flex flex-col gap-4" onSubmit={form.handleSubmit(submit)}>
+				<FormField
+					control={form.control}
+					name="email"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Email</FormLabel>
+							<FormControl>
+								<Input placeholder="" {...field} disabled={form.formState.isSubmitting} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="password"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Password</FormLabel>
+							<FormControl>
+								<Input placeholder="" type="password" {...field} disabled={form.formState.isSubmitting} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<FormField
+					control={form.control}
+					name="passwordConfirm"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Repeat Password</FormLabel>
+							<FormControl>
+								<Input type="password" {...field} disabled={form.formState.isSubmitting} />
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+
+				<Button type="submit" disabled={!form.formState.isValid || form.formState.isSubmitting}>
+					Sign Up
+				</Button>
+			</form>
+		</Form>
+	)
 }
