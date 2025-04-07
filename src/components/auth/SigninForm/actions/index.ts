@@ -3,7 +3,11 @@
 import { createClient } from '@/lib/supabase'
 import { redirect } from 'next/navigation'
 
-export async function signinAction(formData: FormData) {
+export type SigninActionState = {
+	error?: string
+}
+
+export async function signinAction(state: SigninActionState, formData: FormData) {
 	const data = {
 		email: formData.get('email') as string,
 		password: formData.get('password') as string,
@@ -12,10 +16,9 @@ export async function signinAction(formData: FormData) {
 	const supabase = await createClient()
 	const { error } = await supabase.auth.signInWithPassword(data)
 
-		//console.log('Auth error', error)
-	if (error) {
-		throw error
+	if (!error) {
+		return redirect('/dashboard')
 	}
 
-	redirect('/dashboard')
+	return { error: error.message }
 }

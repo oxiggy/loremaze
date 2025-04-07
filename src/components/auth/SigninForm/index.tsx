@@ -1,25 +1,30 @@
 'use client'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { signinAction } from '@/components/auth/SigninForm/actions'
+import {useActionState} from 'react';
+import {signinAction, type SigninActionState} from '@/components/auth/SigninForm/actions';
+import {Label} from '@/components/ui/label';
+import {Input} from '@/components/ui/input';
+import {Button} from '@/components/ui/button';
 
 export default function SigninForm() {
+	const [formState, action, pending ] = useActionState<SigninActionState, FormData>(signinAction, {})
+
 	return (
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-col gap-2">
-				<form action={signinAction} className="w-80 flex flex-col gap-4">
+				<form action={action} className="w-80 flex flex-col gap-4">
+					{!!formState.error && <div className='text-sm text-destructive'>{formState.error}</div>}
+
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="email">Email</Label>
-						<Input id="email" name="email" type="email" required />
+						<Input id="email" name="email" type="email" required disabled={pending} />
 					</div>
 
 					<div className="flex flex-col gap-2">
 						<Label htmlFor="password">Password</Label>
-						<Input id="password" name="password" type="password" required />
+						<Input id="password" name="password" type="password" required disabled={pending} />
 					</div>
 
-					<Button type="submit">login</Button>
+					<Button type="submit" disabled={pending}>Login</Button>
 				</form>
 			</div>
 		</div>

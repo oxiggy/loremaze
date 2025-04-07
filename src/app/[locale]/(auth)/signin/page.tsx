@@ -1,4 +1,5 @@
 import SigninForm from '@/components/auth/SigninForm'
+import Link from 'next/link';
 
 export default function Page() {
 	return (
@@ -6,9 +7,9 @@ export default function Page() {
 			<h1>
 				<span className="text-4xl font-bold">Sign in</span>
 				<br />
-				<span className="text-base text-muted-foreground"> to your account</span>
+				<span className="text-base text-muted-foreground">Don’t have an account? <Link href='/signup' className='font-semibold text-foreground hover:underline'>Sign up</Link></span>
 			</h1>
-			<div className="h-20" />
+			<div className="h-12" />
 			<SigninForm />
 		</div>
 	)
