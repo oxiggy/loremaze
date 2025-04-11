@@ -1,6 +1,6 @@
 'use client'
 import { useActionState } from 'react'
-import { signinAction, type SigninActionState } from '@/components/auth/SigninForm/actions'
+import { signinAction, type SigninActionState } from './actions'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'

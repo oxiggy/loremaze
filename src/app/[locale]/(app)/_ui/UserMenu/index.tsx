@@ -1,7 +1,8 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { UserIcon } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { signoutAction } from '@/components/auth/UserMenu/actions'
+import { signoutAction } from './actions'
 import type { User } from '@supabase/auth-js'
 
 type UserMenuProps = {
@@ -9,6 +10,8 @@ type UserMenuProps = {
 }
 
 export const UserMenu = (props: UserMenuProps) => {
+	const router = useRouter()
+
 	const handleSignOut = async () => {
 		await signoutAction()
 	}
@@ -22,7 +25,7 @@ export const UserMenu = (props: UserMenuProps) => {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuLabel>{props.user.email}</DropdownMenuLabel>
-				<DropdownMenuItem>Profile</DropdownMenuItem>
+				<DropdownMenuItem onClick={() => router.push('/profile')}>Profile</DropdownMenuItem>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem onClick={handleSignOut}>Sign out</DropdownMenuItem>
 			</DropdownMenuContent>

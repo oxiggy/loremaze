@@ -1,7 +1,7 @@
 import React from 'react'
 import { createClient } from '@/lib/supabase'
 import { redirect } from 'next/navigation'
-import { UserMenu } from '@/components/auth/UserMenu'
+import { UserMenu } from '@/app/[locale]/(app)/_ui/UserMenu'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
 	const supabase = await createClient()

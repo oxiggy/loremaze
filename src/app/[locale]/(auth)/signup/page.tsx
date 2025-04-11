@@ -1,4 +1,4 @@
-import { SignupForm } from '@/components/auth/SignupForm'
+import { SignupForm } from '@/app/[locale]/(auth)/signup/_ui/SignupForm'
 import Link from 'next/link'
 
 export default function Page() {
