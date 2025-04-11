@@ -18,8 +18,8 @@ export const UserMenu = (props: UserMenuProps) => {
 
 	return (
 		<DropdownMenu>
-			<DropdownMenuTrigger id="user-menu" className="fixed top-4 right-4 rounded-full">
-				<div className="size-10 rounded-full bg-pink-200 hover:bg-sky-200 flex items-center justify-center">
+			<DropdownMenuTrigger className="rounded-full">
+				<div className="size-10 rounded-full border border-gray-400 flex items-center justify-center">
 					<UserIcon />
 				</div>
 			</DropdownMenuTrigger>
