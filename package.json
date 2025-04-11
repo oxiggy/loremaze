@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "supabase:start": "npx supabase start",
     "supabase:stop": "npx supabase stop",
-    "supabase:migrate": "npx supabase db diff --local --file your_migration_name.sql",
+    "supabase:migrate": "npx supabase db diff --local --file your_migration_name",
     "supabase:gen-types": "npx supabase gen types typescript --local > src/types/supabase.d.ts",
     "supabase:reset": "npx supabase db reset"
   },
