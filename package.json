@@ -8,7 +8,12 @@
     "start": "next start",
     "lint": "npx @biomejs/biome lint ./src",
     "format": "npx @biomejs/biome format --write ./src",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "supabase:start": "npx supabase start",
+    "supabase:stop": "npx supabase stop",
+    "supabase:migrate": "npx supabase db diff --local --file your_migration_name.sql",
+    "supabase:gen-types": "npx supabase gen types typescript --local > src/types/supabase.d.ts",
+    "supabase:reset": "npx supabase db reset"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
