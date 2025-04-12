@@ -1,4 +1,4 @@
-/*create table "public"."profiles" (
+create table "public"."profiles" (
     "id" uuid not null,
     "updatedAt" timestamp with time zone,
     "username" text,
@@ -6,7 +6,6 @@
     "avatarUrl" text,
     "website" text
 );
-
 
 alter table "public"."profiles" enable row level security;
 
@@ -31,8 +30,8 @@ CREATE OR REPLACE FUNCTION public.handle_new_user()
  SET search_path TO ''
 AS $function$
 begin
-  insert into public.profiles (id, fullName, avatarUrl)
-  values (new.id, coalesce(new.raw_user_meta_data->>'fullName', ''), coalesce(new.raw_user_meta_data->>'avatarUrl', ''));
+  insert into public.profiles (id)
+  values (new.id);
   return new;
 end;
 $function$
@@ -105,14 +104,12 @@ for select
 to public
 using (true);
 
-
 create policy "Users can insert their own profile."
 on "public"."profiles"
 as permissive
 for insert
 to public
 with check ((( SELECT auth.uid() AS uid) = id));
-
 
 create policy "Users can update own profile."
 on "public"."profiles"
@@ -122,5 +119,3 @@ to public
 using ((( SELECT auth.uid() AS uid) = id));
 
 
-
-*/
