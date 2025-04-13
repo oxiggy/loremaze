@@ -11,7 +11,6 @@ export default async function Page() {
     `)
 
 	if (error) {
-		console.log(error)
 		throw error
 	}
 
